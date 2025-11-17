@@ -34,21 +34,21 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: blog-description
-    attributes:
-      label: 博客描述
-      description: 简短描述你的博客（不超过50字）
-      placeholder: 这是一个关于技术和生活的博客
-    validations:
-      required: true
-
   - type: input
     id: blog-avatar
     attributes:
       label: 头像地址
       description: 提供头像URL或Gravatar MD5哈希
       placeholder: https://www.example.com/avatar.png 或 md5:abc123...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: blog-description
+    attributes:
+      label: 博客描述
+      description: 简短描述你的博客（不超过50字）
+      placeholder: 这是一个关于技术和生活的博客
     validations:
       required: true
 
