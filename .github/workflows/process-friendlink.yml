@@ -109,7 +109,13 @@ jobs:
           result-encoding: string
           script: |
             const fs = require('fs');
-            const issue = context.payload.issue;
+            
+            // 重新获取 Issue 的最新状态（包含刚添加的标签）
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
             
             // 检查是否有 approved 标签
             const hasApproved = issue.labels.some(label => label.name === 'approved');
