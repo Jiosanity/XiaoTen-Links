@@ -189,6 +189,12 @@
             "url": "https://www.boyouquan.com/",
             "src": "https://www.boyouquan.com/assets/favicon.ico",
             "des": "博友圈是博客人的专属朋友圈。"
+        },
+        {
+            "name": "博客圈",
+            "url": "https://bokequan.cn/",
+            "src": "https://bokequan.cn/wp-content/uploads/2024/10/1730017489-logo.png",
+            "des": "致力于个人独立博客"
         }
     ]
 }
