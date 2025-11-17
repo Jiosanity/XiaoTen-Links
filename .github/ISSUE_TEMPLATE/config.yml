@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 问题反馈
+    url: https://github.com/Jiosanity/xiaoten-links/issues/new/choose
+    about: 如果遇到问题，请选择合适的模板提交
