@@ -60,7 +60,7 @@ body:
       options:
         - friends (朋友)
         - experts (大佬)
-        - groups (团体)
+        - groups (联盟组织)
       default: 0
     validations:
       required: true
