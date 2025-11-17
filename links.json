@@ -8,14 +8,14 @@
         },
         {
             "name": "MouT.me",
-            "url": "https://mout.me/",
+            "url": "https://ghost.mout.me/",
             "md5": "678bf8cb50938b0e3a252e0509455d10",
             "des": "MouT.me"
         },
         {
-            "name": "Hello Alili",
-            "url": "https://alili.tech/",
-            "src": "https://cdn.xiaoten.com/friends/alili.png",
+            "name": "Wandai Blog",
+            "url": "https://twd2.me/",
+            "src": "https://twd2.me/smile_photo.jpg",
             "des": ""
         },
         {
@@ -65,28 +65,124 @@
             "url": "https://yayu.net/",
             "src": "https://yayu.net/wp-content/themes/yayu/assets/images/logo.png",
             "des": "茶余饭后，闲情雅致"
+        },
+        {
+            "name": "网友小宋",
+            "url": "https://xyzbz.cn/",
+            "src": "https://bu.dusays.com/2023/07/25/64bf920527086.png",
+            "des": "一介草民，只为生活"
+        },
+        {
+            "name": "小白大学渣",
+            "url": "https://www.baihub.cn/",
+            "src": "https://www.baihub.cn/wp-content/uploads/2024/12/logo-middle.jpg",
+            "des": "随缘更新，咕~"
+        },
+        {
+            "name": "灰常记忆",
+            "url": "https://bestcherish.com",
+            "src": "https://bestcherish.com/image/favicon.svg",
+            "des": "记录生活 珍藏回忆"
+        },
+        {
+            "name": "安静角落",
+            "url": "https://wuziya.com/",
+            "md5": "44a830f1733f4acca071dac524c256a7972853f976dfc57a8f9e706351fdfff7",
+            "des": "记录生活 珍藏回忆"
+        },
+        {
+            "name": "游钓四方",
+            "url": "https://blog.lhasa.icu/",
+            "src": "https://blog.lhasa.icu/favicon.svg",
+            "des": "骑过湖边的小径，走过文字里的角落，偶尔停下，看见风，也看见自己"
+        },
+        {
+            "name": "且听书吟",
+            "url": "https://yufan.me",
+            "md5": "fc0c337151f20f2bdb9e063a7f61ebb5d954424040daf081086f6fc2b8564353",
+            "des": "诗与梦想的远方"
+        },
+        {
+            "name": "故事的程序猿",
+            "url": "https://blog.lichenghao.cn",
+            "src": "https://blog.lichenghao.cn/avatar.svg",
+            "des": "好好学习，天天向上↑"
+        },
+        {
+            "name": "旺东自留地",
+            "url": "https://wang618.cn/",
+            "src": "https://wang618.cn/logo.gif",
+            "des": "好好学习，天天向上↑"
         }
     ],
     "experts": [
-        {
-            "name": "Wandai Blog",
-            "url": "https://twd2.me/",
-            "src": "https://twd2.me/smile_photo.jpg",
-            "des": ""
-        },
         {
             "name": "木木木木木",
             "url": "https://immmmm.com/",
             "src": "https://gravatar.memobbs.app/avatar/ba83fa02fc4b2ba621514941307e21be?s=80",
             "des": ""
+        },
+        {
+            "name": "Hello Alili",
+            "url": "https://alili.tech/",
+            "src": "https://cdn.xiaoten.com/friends/alili.png",
+            "des": ""
+        },
+        {
+            "name": "从良未遂",
+            "url": "https://www.jeffer.xyz/",
+            "src": "https://www.jeffer.xyz/wp-content/uploads/2023/01/cropped-2023010402181112.jpg",
+            "des": "我在此处嗅到人间味道"
+        },
+        {
+            "name": "友人C",
+            "url": "https://www.ihewro.com",
+            "src": "https://www.ihewro.com/usr/uploads/time/67bad1fb8fe22.jpg",
+            "des": "我们这一生很短，我们终将会失去它，所以不妨大胆一点。"
+        },
+        {
+            "name": "枋柚梓",
+            "url": "https://inkss.cn/",
+            "src": "https://cdn.xiaoten.com/friends/inkss.avif",
+            "des": "繁星永存，记忆亘古不变。"
+        },
+        {
+            "name": "空白Koobai",
+            "url": "https://koobai.com/",
+            "src": "https://cdn.xiaoten.com/friends/koobai.webp",
+            "des": ""
+        },
+        {
+            "name": "Jack's Space",
+            "url": "https://veryjack.com/",
+            "src": "https://veryjack.com/wp-content/uploads/2025/05/avatar_transparant-150x150.webp",
+            "des": ""
+        },
+        {
+            "name": "Evan",
+            "url": "https://www.evan.xin/",
+            "src": "https://www.evan.xin/logo.png",
+            "des": ""
         }
     ],
     "groups": [
         {
+            "name": "十年之约",
+            "url": "https://www.foreverblog.cn/",
+            "src": "https://www.foreverblog.cn/favicon.ico",
+            "des": "一个人的寂寞，一群人的狂欢。"
+        },
+        {
+            "name": "开往|友链接力",
+            "url": "https://www.travellings.cn/",
+            "src": "https://www.travellings.cn/assets/favicon.png",
+            "des": "让传统友链“活跃”，让网页相互接力，让流量相互流动，让网络开放起来"
+        },
+        {
             "name": "博客中心",
             "url": "https://bokehub.com/",
             "src": "https://bokehub.com/assets/images/sites/logo/logo-small.png",
-            "des": ""
+            "des": "中文独立博客收录聚合平台 | 发现优质个人博客"
         }
     ]
 }
