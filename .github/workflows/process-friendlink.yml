@@ -218,11 +218,19 @@ jobs:
 
       - name: Set outputs
         id: outputs
+        shell: bash
         run: |
-          $result = '${{ steps.parse-issue.outputs.result }}' | ConvertFrom-Json
-          echo "updated=$($result.updated)" >> $env:GITHUB_OUTPUT
-          echo "blog_name=$($result.blog_name)" >> $env:GITHUB_OUTPUT
-          echo "category=$($result.category)" >> $env:GITHUB_OUTPUT
+          result='${{ steps.parse-issue.outputs.result }}'
+          if [ "$result" != "" ]; then
+            updated=$(echo $result | jq -r '.updated // "false"')
+            blog_name=$(echo $result | jq -r '.blog_name // ""')
+            category=$(echo $result | jq -r '.category // ""')
+            echo "updated=$updated" >> $GITHUB_OUTPUT
+            echo "blog_name=$blog_name" >> $GITHUB_OUTPUT
+            echo "category=$category" >> $GITHUB_OUTPUT
+          else
+            echo "updated=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create Pull Request
         if: steps.outputs.outputs.updated == 'true'
