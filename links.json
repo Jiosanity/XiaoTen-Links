@@ -219,6 +219,12 @@
             "url": "https://blogscn.fun",
             "src": "https://photo.xiangming.site/img/blogscn_icon.png",
             "des": "致敬还在写博客的我们！"
+        },
+        {      
+            "name": "BlogsClub",
+            "url": "https://www.blogsclub.org/",
+            "src": "https://www.blogsclub.org/usr/themes/default/favicon.png",
+            "des": "BlogsClub是一个互联网独立博客俱乐部"
         }
     ]
 }
