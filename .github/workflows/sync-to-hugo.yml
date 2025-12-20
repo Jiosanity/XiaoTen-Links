@@ -28,11 +28,11 @@ jobs:
       - name: Sync links.json to Hugo site
         run: |
           # 复制 links.json 到 Hugo 站点
-          cp links-repo/links.json hugo-site/themes/xiaoten/static/links.json
+          cp links-repo/links.json hugo-site/themes/xiaoten/static/data/links.json
           
           # 检查是否有变化
           cd hugo-site
-          if git diff --quiet themes/xiaoten/static/links.json; then
+          if git diff --quiet themes/xiaoten/static/data/links.json; then
             echo "No changes in links.json"
             echo "has_changes=false" >> $GITHUB_ENV
           else
@@ -46,7 +46,7 @@ jobs:
           cd hugo-site
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add themes/xiaoten/static/links.json
+          git add themes/xiaoten/static/data/links.json
           git commit -m "chore: sync links.json from xiaoten-links repository"
           git push
       
