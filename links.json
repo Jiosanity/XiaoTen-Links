@@ -143,6 +143,12 @@
             "url": "http://www.winegrower.cn/",
             "src": "https://cdn.xiaoten.com/friends/winegrower.png",
             "des": "种葡萄并酿酒的人"
+        },
+        {
+            "name": "小屁君的吐槽",
+            "url": "https://blog.ouxiaopi.com/",
+            "src": "https://cdn.xiaoten.com/friends/ouxiaopi.ico",
+            "des": "_No response_"
         }
     ],
     "experts": [
