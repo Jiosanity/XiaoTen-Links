@@ -255,6 +255,12 @@
             "url": "https://storeweb.cn/",
             "src": "https://cdn.xiaoten.com/friends/storeweb.ico",
             "des": "一个精致的，带社交元素的个人网站发布平台，博客收录网站"
+        },
+        {
+            "name": "Peng.You",
+            "url": "https://peng.you/",
+            "src": "https://cdn.xiaoten.com/friends/peng.you.png",
+            "des": "博客聚合网站"
         }
     ]
 }
