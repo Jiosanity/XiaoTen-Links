@@ -279,6 +279,12 @@
             "url": "https://peng.you/",
             "src": "https://cdn.xiaoten.com/friends/peng.you.png",
             "des": "博客聚合网站"
+        },
+        {
+            "name": "拾趣博客导航",
+            "url": "https://s7.fan/",
+            "src": "https://s7.fan/img/tubiao.png",
+            "des": "捡拾文字里的小乐趣！"
         }
     ]
 }
