@@ -1,4 +1,4 @@
-name: Sync to Hugo Site
+name: Sync to Static Site
 
 on:
   push:
@@ -18,21 +18,20 @@ jobs:
         with:
           path: links-repo
       
-      - name: Checkout Hugo site repository
+      - name: Checkout static site repository
         uses: actions/checkout@v4
         with:
-          repository: Jiosanity/hugo-xiaoten-com
+          repository: Jiosanity/static-xiaoten-com
           token: ${{ secrets.HUGO_SITE_PAT }}
-          path: hugo-site
+          path: static-site
       
-      - name: Sync links.json to Hugo site
+      - name: Sync links.json to static site
         run: |
-          # 复制 links.json 到 Hugo 站点
-          cp links-repo/links.json hugo-site/themes/xiaoten/static/data/links.json
+          mkdir -p static-site/dist
+          cp links-repo/links.json static-site/dist/links.json
           
-          # 检查是否有变化
-          cd hugo-site
-          if git diff --quiet themes/xiaoten/static/data/links.json; then
+          cd static-site
+          if git diff --quiet dist/links.json; then
             echo "No changes in links.json"
             echo "has_changes=false" >> $GITHUB_ENV
           else
@@ -43,11 +42,11 @@ jobs:
       - name: Commit and push changes
         if: env.has_changes == 'true'
         run: |
-          cd hugo-site
+          cd static-site
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add themes/xiaoten/static/data/links.json
-          git commit -m "chore: sync links.json from xiaoten-links repository"
+          git add dist/links.json
+          git commit -m "chore: sync links.json from XiaoTen-Links"
           git push
       
       - name: Comment on related PR
@@ -65,7 +64,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issueNumber,
-                body: '🎉 友链已成功添加并同步到博客站点！\n\n数据已自动推送到 Hugo 站点仓库，站点正在重新构建中...\n\n可以稍后访问 https://www.xiaoten.com/pages/links/ 查看。\n\n感谢你的申请！'
+                body: '🎉 友链已成功添加并同步到博客站点！\n\n数据已自动推送到静态资源仓库，可以稍后访问 https://www.xiaoten.com/pages/links/ 查看。\n\n感谢你的申请！'
               });
               
               // 关闭 Issue
@@ -80,5 +79,5 @@ jobs:
       - name: Notify sync completion
         if: env.has_changes == 'true'
         run: |
-          echo "✅ links.json has been synced to hugo-xiaoten-com repository"
-          echo "🚀 Hugo site deployment workflow will be triggered automatically"
+          echo "✅ links.json has been synced to static-xiaoten-com repository"
+          echo "🚀 Cloudflare Pages will auto-deploy the updated file"
