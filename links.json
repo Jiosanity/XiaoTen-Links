@@ -291,6 +291,12 @@
             "url": "https://s7.fan/",
             "src": "https://cdn.xiaoten.com/friends/s7-fan.png",
             "des": "捡拾文字里的小乐趣！"
+        },
+        {
+            "name": "若梦博客",
+            "url": "https://www.rmbk.cc/",
+            "src": "https://cdn.xiaoten.com/friends/rmbk.ico",
+            "des": "每一个博客，都是精神的驿站。我们不同行，但彼此照亮。在此驻足，便积蓄前行的力量。"
         }
     ]
 }
