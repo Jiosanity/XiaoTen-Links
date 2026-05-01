@@ -173,6 +173,12 @@
             "url": "https://www.yiyou.bj.cn",
             "src": "https://cdn.xiaoten.com/friends/youlogo.png",
             "des": "记生活点滴，留岁月温柔。"
+        },
+        {
+            "name": "80后记忆",
+            "url": "https://www.80h.bj.cn",
+            "src": "https://cdn.xiaoten.com/friends/80h_bj.ico",
+            "des": "_No response_"
         }
     ],
     "experts": [
