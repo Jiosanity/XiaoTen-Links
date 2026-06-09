@@ -1,4 +1,4 @@
-name: Sync to Static Site
+name: Dispatch Static Ingest
 
 on:
   push:
@@ -13,17 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout links repository
-        uses: actions/checkout@v4
-        with:
-          path: links-repo
-      
       - name: Trigger static site ingest
         env:
           GH_TOKEN: ${{ secrets.HUGO_SITE_PAT }}
         run: gh workflow run ingest-links.yml --repo Jiosanity/static-xiaoten-com --ref main
       
-      - name: Comment on related PR
+      - name: Comment on related issue
         if: github.event_name == 'push' && contains(github.event.head_commit.message, 'friendlink')
         uses: actions/github-script@v7
         with:
@@ -38,7 +33,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issueNumber,
-                body: '🎉 友链已成功添加并同步到博客站点！\n\n数据已自动推送到静态资源仓库，可以稍后访问 https://www.xiaoten.com/pages/links/ 查看。\n\n感谢你的申请！'
+                body: '🎉 友链已成功添加，静态资源发布流程已触发。\n\n稍后可以访问 https://www.xiaoten.com/pages/links/ 查看。\n\n感谢你的申请！'
               });
               
               // 关闭 Issue

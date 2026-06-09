@@ -75,6 +75,7 @@
 - 本仓库继续作为公开友链数据与申请仓库
 - `links.json` 仍由 Issue / PR / 主站后台共同维护
 - 主站后台通过 Cloudflare Worker 授权写回本仓库，不在前端保存 GitHub Token
+- `links.json` 更新后由 GitHub Actions 触发 `Jiosanity/static-xiaoten-com` 的 `ingest-links.yml`，静态仓库负责发布 `dist/links.json`
 
 ## 🔗 相关链接
 

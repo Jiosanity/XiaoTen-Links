@@ -258,7 +258,7 @@ jobs:
             
             请检查 `links.json` 的变更是否正确。
             
-            合并后，友链数据会自动同步到博客站点。
+            合并后，友链数据会触发静态资源发布流程。
           labels: 友情链接,自动PR
 
       - name: Comment on Issue
@@ -270,5 +270,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: '✅ 友链申请已处理，自动 PR 已创建！\n\n请检查 Pull Request 并合并，合并后将自动同步到博客站点。'
+              body: '✅ 友链申请已处理，自动 PR 已创建！\n\n请检查 Pull Request 并合并，合并后将触发静态资源发布流程。'
             });
