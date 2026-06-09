@@ -67,6 +67,15 @@
 
 友链数据存储在 [`links.json`](./links.json) 文件中。
 
+## 🧰 管理后台
+
+本仓库提供一个静态友链管理后台：[`admin/index.html`](./admin/index.html)。
+
+- 可按 `friends`、`experts`、`groups` 分类查看和筛选友链
+- 支持新增、编辑、删除、排序、重复链接检查
+- 支持导入现有 `links.json`，并复制或下载更新后的 JSON
+- 页面不会直接写入仓库文件；导出后请手动替换 `links.json` 并提交
+
 ## 🔗 相关链接
 
 - 博客主站：https://www.xiaoten.com/
