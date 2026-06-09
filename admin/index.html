@@ -13,15 +13,15 @@
                 <div class="brand-mark">十</div>
                 <div>
                     <h1>Links Studio</h1>
-                    <p>需要访问口令</p>
+                    <p>需要 Worker 授权</p>
                 </div>
             </div>
             <label>
-                访问口令
-                <input id="accessKeyField" type="password" autocomplete="current-password" placeholder="输入后台访问口令" required>
+                Worker 访问密码
+                <input id="accessKeyField" type="password" autocomplete="current-password" placeholder="输入与主站后台一致的访问密码" required>
             </label>
             <button type="submit" class="primary">进入后台</button>
-            <p class="auth-note">静态页面口令只用于前端门禁；公开仓库部署时，真正的访问控制请放在托管平台或网关层。</p>
+            <p class="auth-note">密码会发送到 Cloudflare Worker 的 X-Custom-Auth 请求头，由 Worker 代理 GitHub API。</p>
         </form>
     </section>
 
@@ -38,8 +38,8 @@
             <div class="status-panel">
                 <span class="status-dot"></span>
                 <div>
-                    <strong>Local-first</strong>
-                    <p>直接编辑浏览器内存数据，导出后回写 links.json。</p>
+                    <strong>Worker-backed</strong>
+                    <p>通过 Cloudflare Worker 授权读取和保存私有仓库数据。</p>
                 </div>
             </div>
 
@@ -63,7 +63,8 @@
                 <div class="topbar-actions">
                     <button type="button" id="themeButton" aria-label="切换浅色或深色模式">浅色模式</button>
                     <button type="button" id="copyButton">复制 JSON</button>
-                    <button type="button" class="primary" id="downloadButton">下载 links.json</button>
+                    <button type="button" id="downloadButton">下载 links.json</button>
+                    <button type="button" class="primary" id="saveRepoButton">保存到仓库</button>
                     <button type="button" id="logoutButton">锁定</button>
                 </div>
             </header>
@@ -105,7 +106,7 @@
                             <h3 id="tableTitle">朋友</h3>
                             <p id="tableHint">按当前分类查看和调整排序。</p>
                         </div>
-                        <span id="dirtyBadge" class="dirty-badge" hidden>未导出</span>
+                        <span id="dirtyBadge" class="dirty-badge" hidden>未保存</span>
                     </div>
 
                     <div class="table-wrap">
@@ -127,7 +128,7 @@
                     <div class="panel-heading">
                         <div>
                             <h3 id="formTitle">新增友链</h3>
-                            <p>保存后只更新页面内数据，使用导出按钮落盘。</p>
+                            <p>表单保存后先更新页面内数据，再用右上角按钮写回仓库。</p>
                         </div>
                     </div>
 

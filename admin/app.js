@@ -1,5 +1,8 @@
-const ACCESS_KEY_HASH = "efedbff7f2d6c18b6ccf13eebfbe3d611de7b812be82a136b99befe12b29ec70";
-const ACCESS_SESSION_KEY = "xiaoten-links-admin-authorized";
+const REPO_OWNER = "Jiosanity";
+const REPO_NAME = "XiaoTen-Links";
+const BRANCH = "main";
+const WORKER_URL = "https://xiaoten-cms-proxy.jiosanity.workers.dev";
+const ACCESS_STORAGE_KEY = "xiaoten_auth_pwd";
 const THEME_STORAGE_KEY = "xiaoten-links-admin-theme";
 
 const CATEGORY_META = {
@@ -13,7 +16,9 @@ const state = {
     category: "friends",
     editing: null,
     dirty: false,
-    query: ""
+    query: "",
+    fileSha: null,
+    authPassword: localStorage.getItem(ACCESS_STORAGE_KEY) || ""
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -39,6 +44,7 @@ const els = {
     logoutButton: $("#logoutButton"),
     copyButton: $("#copyButton"),
     downloadButton: $("#downloadButton"),
+    saveRepoButton: $("#saveRepoButton"),
     addButton: $("#addButton"),
     validateButton: $("#validateButton"),
     form: $("#linkForm"),
@@ -123,17 +129,6 @@ function toggleTheme() {
     applyTheme(next);
 }
 
-async function sha256(value) {
-    if (!window.crypto?.subtle) {
-        throw new Error("crypto.subtle unavailable");
-    }
-    const data = new TextEncoder().encode(value);
-    const digest = await crypto.subtle.digest("SHA-256", data);
-    return Array.from(new Uint8Array(digest))
-        .map((byte) => byte.toString(16).padStart(2, "0"))
-        .join("");
-}
-
 function unlockApp() {
     els.authGate.hidden = true;
     els.appShell.inert = false;
@@ -141,7 +136,9 @@ function unlockApp() {
 }
 
 function lockApp() {
-    sessionStorage.removeItem(ACCESS_SESSION_KEY);
+    localStorage.removeItem(ACCESS_STORAGE_KEY);
+    state.authPassword = "";
+    state.fileSha = null;
     els.appShell.inert = true;
     els.authGate.hidden = false;
     els.accessKeyField.value = "";
@@ -150,17 +147,60 @@ function lockApp() {
 
 async function verifyAccess(event) {
     event.preventDefault();
+    const password = els.accessKeyField.value.trim();
+    if (!password) return;
+
     try {
-        const hash = await sha256(els.accessKeyField.value);
-        if (hash !== ACCESS_KEY_HASH) {
-            showToast("访问口令不正确。");
-            return;
-        }
-        sessionStorage.setItem(ACCESS_SESSION_KEY, "1");
+        state.authPassword = password;
+        await ghApi(`branches/${BRANCH}`);
+        localStorage.setItem(ACCESS_STORAGE_KEY, password);
         unlockApp();
     } catch (error) {
-        showToast("当前打开方式不支持口令校验，请使用 HTTPS 或 localhost。");
+        state.authPassword = "";
+        localStorage.removeItem(ACCESS_STORAGE_KEY);
+        showToast("Worker 授权失败，请检查访问密码。");
     }
+}
+
+async function ghApi(path, method = "GET", body = null) {
+    if (!state.authPassword) {
+        throw new Error("Missing auth password");
+    }
+
+    const response = await fetch(`${WORKER_URL}/repos/${REPO_OWNER}/${REPO_NAME}/${path}`, {
+        method,
+        headers: {
+            "X-Custom-Auth": state.authPassword,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+        },
+        body: body ? JSON.stringify(body) : null
+    });
+
+    if (response.status === 401) {
+        localStorage.removeItem(ACCESS_STORAGE_KEY);
+        state.authPassword = "";
+        throw new Error("Unauthorized");
+    }
+    if (!response.ok) {
+        throw new Error(`GitHub API ${response.status}`);
+    }
+    return response.json();
+}
+
+function decodeBase64Content(content) {
+    const binary = atob(content.replace(/\s/g, ""));
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+}
+
+function encodeBase64Content(content) {
+    const bytes = new TextEncoder().encode(content);
+    let binary = "";
+    bytes.forEach((byte) => {
+        binary += String.fromCharCode(byte);
+    });
+    return btoa(binary);
 }
 
 function avatarUrl(link) {
@@ -436,16 +476,16 @@ function validateDuplicates() {
 
 async function loadRepositoryData() {
     try {
-        const response = await fetch("../links.json", { cache: "no-store" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        state.data = normalizeData(await response.json());
+        const file = await ghApi(`contents/links.json?ref=${BRANCH}`);
+        state.fileSha = file.sha;
+        state.data = normalizeData(JSON.parse(decodeBase64Content(file.content)));
         setDirty(false);
         clearForm();
         render();
-        showToast("已载入仓库 links.json。");
+        showToast("已通过 Worker 载入 links.json。");
     } catch (error) {
         render();
-        showToast("无法自动读取 links.json，可使用导入 JSON。");
+        showToast("无法读取仓库数据，请重新登录或导入 JSON。");
     }
 }
 
@@ -459,7 +499,7 @@ function importJson(file) {
             setDirty(true);
             clearForm();
             render();
-            showToast("JSON 已导入。");
+            showToast("JSON 已导入，保存到仓库会覆盖当前 links.json。");
         } catch (error) {
             showToast("JSON 解析失败。");
         }
@@ -490,6 +530,33 @@ function downloadJson() {
     showToast("links.json 已下载。");
 }
 
+async function saveRepositoryData() {
+    if (!state.fileSha) {
+        showToast("缺少文件版本信息，请先重载仓库数据。");
+        return;
+    }
+
+    const json = serializeData();
+    try {
+        const result = await ghApi("contents/links.json", "PUT", {
+            message: "Update friend links",
+            content: encodeBase64Content(json),
+            sha: state.fileSha,
+            branch: BRANCH
+        });
+        state.fileSha = result.content?.sha || state.fileSha;
+        setDirty(false);
+        showToast("links.json 已保存到仓库。");
+    } catch (error) {
+        if (error.message === "Unauthorized") {
+            showToast("登录状态失效，请重新输入 Worker 访问密码。");
+            lockApp();
+            return;
+        }
+        showToast("保存失败，请重载数据后再试。");
+    }
+}
+
 els.searchInput.addEventListener("input", (event) => {
     state.query = event.target.value;
     renderTable();
@@ -500,6 +567,7 @@ els.themeButton.addEventListener("click", toggleTheme);
 els.logoutButton.addEventListener("click", lockApp);
 els.copyButton.addEventListener("click", copyJson);
 els.downloadButton.addEventListener("click", downloadJson);
+els.saveRepoButton.addEventListener("click", saveRepositoryData);
 els.addButton.addEventListener("click", clearForm);
 els.validateButton.addEventListener("click", validateDuplicates);
 els.form.addEventListener("submit", saveLink);
@@ -515,7 +583,7 @@ els.categoryField.addEventListener("change", () => {
 
 applyTheme(preferredTheme());
 
-if (sessionStorage.getItem(ACCESS_SESSION_KEY) === "1") {
+if (state.authPassword) {
     unlockApp();
 } else {
     lockApp();
