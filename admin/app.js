@@ -1,3 +1,7 @@
+const ACCESS_KEY_HASH = "efedbff7f2d6c18b6ccf13eebfbe3d611de7b812be82a136b99befe12b29ec70";
+const ACCESS_SESSION_KEY = "xiaoten-links-admin-authorized";
+const THEME_STORAGE_KEY = "xiaoten-links-admin-theme";
+
 const CATEGORY_META = {
     friends: { label: "朋友", hint: "互相关注的博主朋友" },
     experts: { label: "大佬", hint: "技术大牛、行业专家" },
@@ -15,6 +19,10 @@ const state = {
 const $ = (selector) => document.querySelector(selector);
 
 const els = {
+    authGate: $("#authGate"),
+    authForm: $("#authForm"),
+    appShell: $("#appShell"),
+    accessKeyField: $("#accessKeyField"),
     categoryList: $("#categoryList"),
     linksTable: $("#linksTable"),
     totalCount: $("#totalCount"),
@@ -27,6 +35,8 @@ const els = {
     searchInput: $("#searchInput"),
     importFile: $("#importFile"),
     resetButton: $("#resetButton"),
+    themeButton: $("#themeButton"),
+    logoutButton: $("#logoutButton"),
     copyButton: $("#copyButton"),
     downloadButton: $("#downloadButton"),
     addButton: $("#addButton"),
@@ -93,6 +103,64 @@ function showToast(message) {
     showToast.timer = window.setTimeout(() => {
         els.toast.classList.remove("is-visible");
     }, 2400);
+}
+
+function preferredTheme() {
+    const saved = localStorage.getItem(THEME_STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    els.themeButton.textContent = theme === "dark" ? "浅色模式" : "深色模式";
+}
+
+function toggleTheme() {
+    const current = document.documentElement.dataset.theme || preferredTheme();
+    const next = current === "dark" ? "light" : "dark";
+    localStorage.setItem(THEME_STORAGE_KEY, next);
+    applyTheme(next);
+}
+
+async function sha256(value) {
+    if (!window.crypto?.subtle) {
+        throw new Error("crypto.subtle unavailable");
+    }
+    const data = new TextEncoder().encode(value);
+    const digest = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(digest))
+        .map((byte) => byte.toString(16).padStart(2, "0"))
+        .join("");
+}
+
+function unlockApp() {
+    els.authGate.hidden = true;
+    els.appShell.inert = false;
+    loadRepositoryData();
+}
+
+function lockApp() {
+    sessionStorage.removeItem(ACCESS_SESSION_KEY);
+    els.appShell.inert = true;
+    els.authGate.hidden = false;
+    els.accessKeyField.value = "";
+    els.accessKeyField.focus();
+}
+
+async function verifyAccess(event) {
+    event.preventDefault();
+    try {
+        const hash = await sha256(els.accessKeyField.value);
+        if (hash !== ACCESS_KEY_HASH) {
+            showToast("访问口令不正确。");
+            return;
+        }
+        sessionStorage.setItem(ACCESS_SESSION_KEY, "1");
+        unlockApp();
+    } catch (error) {
+        showToast("当前打开方式不支持口令校验，请使用 HTTPS 或 localhost。");
+    }
 }
 
 function avatarUrl(link) {
@@ -428,11 +496,14 @@ els.searchInput.addEventListener("input", (event) => {
 });
 els.importFile.addEventListener("change", (event) => importJson(event.target.files[0]));
 els.resetButton.addEventListener("click", loadRepositoryData);
+els.themeButton.addEventListener("click", toggleTheme);
+els.logoutButton.addEventListener("click", lockApp);
 els.copyButton.addEventListener("click", copyJson);
 els.downloadButton.addEventListener("click", downloadJson);
 els.addButton.addEventListener("click", clearForm);
 els.validateButton.addEventListener("click", validateDuplicates);
 els.form.addEventListener("submit", saveLink);
+els.authForm.addEventListener("submit", verifyAccess);
 els.clearButton.addEventListener("click", clearForm);
 [els.nameField, els.urlField, els.srcField, els.md5Field, els.desField].forEach((field) => {
     field.addEventListener("input", renderPreview);
@@ -442,4 +513,10 @@ els.categoryField.addEventListener("change", () => {
     render();
 });
 
-loadRepositoryData();
+applyTheme(preferredTheme());
+
+if (sessionStorage.getItem(ACCESS_SESSION_KEY) === "1") {
+    unlockApp();
+} else {
+    lockApp();
+}

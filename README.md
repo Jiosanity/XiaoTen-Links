@@ -75,6 +75,18 @@
 - 支持新增、编辑、删除、排序、重复链接检查
 - 支持导入现有 `links.json`，并复制或下载更新后的 JSON
 - 页面不会直接写入仓库文件；导出后请手动替换 `links.json` 并提交
+- 支持浅色 / 深色模式，偏好会保存在当前浏览器
+- 内置前端访问口令，默认口令为 `xiaoten-links-admin`
+
+修改后台口令时，先生成新口令的 SHA-256：
+
+```bash
+printf '你的新口令' | shasum -a 256
+```
+
+然后把 [`admin/app.js`](./admin/app.js) 顶部的 `ACCESS_KEY_HASH` 替换为生成结果。
+
+注意：静态页面里的口令只能作为前端门禁，不能提供真正的服务端级授权。若后台部署在公开 GitHub Pages 上，源码和 `links.json` 仍然可被访问；需要真正限制访问时，应使用 Cloudflare Access、反向代理鉴权、私有 Pages 或其他带登录能力的托管方式。
 
 ## 🔗 相关链接
 
