@@ -69,16 +69,12 @@
 
 ## 🧰 管理后台
 
-本仓库提供一个静态友链管理后台：[`admin/index.html`](./admin/index.html)。
+友链后台已并入主站管理后台维护，不再由本仓库单独部署。
 
-- 可按 `friends`、`experts`、`groups` 分类查看和筛选友链
-- 支持新增、编辑、删除、排序、重复链接检查
-- 支持导入现有 `links.json`，并复制或下载更新后的 JSON
-- 通过 Cloudflare Worker 授权读取和保存私有仓库里的 `links.json`
-- 支持浅色 / 深色模式，偏好会保存在当前浏览器
-- 使用与主站后台一致的 Worker 访问密码，前端只发送 `X-Custom-Auth`，不保存 GitHub Token
-
-注意：后台授权依赖 [`admin/app.js`](./admin/app.js) 顶部的 `WORKER_URL`，访问密码和 GitHub Token 应继续放在 Cloudflare Worker 的环境变量中管理，不要写入前端代码。
+- 管理入口：`hugo-xiaoten-com` 的 `/admin/links/`
+- 本仓库继续作为公开友链数据与申请仓库
+- `links.json` 仍由 Issue / PR / 主站后台共同维护
+- 主站后台通过 Cloudflare Worker 授权写回本仓库，不在前端保存 GitHub Token
 
 ## 🔗 相关链接
 
