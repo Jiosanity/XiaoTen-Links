@@ -179,6 +179,12 @@
             "url": "https://www.80h.bj.cn",
             "src": "https://cdn.xiaoten.com/friends/80h_bj.ico",
             "des": "_No response_"
+        },
+        {
+            "name": "国安",
+            "url": "https://guoan.cc",
+            "src": "https://guoan.cc/images/logo.png",
+            "des": "不必宏大叙事，只写亲眼所见的山河。"
         }
     ],
     "experts": [
