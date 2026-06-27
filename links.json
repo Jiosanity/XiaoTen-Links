@@ -1,6 +1,12 @@
 {
     "friends": [
         {
+            "name": "国安",
+            "url": "https://guoan.cc",
+            "src": "https://guoan.cc/images/logo.png",
+            "des": "不必宏大叙事，只写亲眼所见的山河。"
+        },
+        {
             "name": "茶余饭后",
             "url": "https://q.chyfh.com/",
             "src": "https://cdn.xiaoten.com/friends/q.chyfh.png",
@@ -55,6 +61,12 @@
             "des": "关于这个博客，你应该知道的第一件事是，这是我为自己所写的博客。"
         },
         {
+            "name": "小白大学渣",
+            "url": "https://www.baihub.cn/",
+            "src": "https://cdn.xiaoten.com/friends/baihub.jpg",
+            "des": "随缘更新，咕~"
+        },
+        {
             "name": "手里有只毛毛虫",
             "url": "https://www.krjojo.com/",
             "src": "https://cdn.xiaoten.com/friends/krjojo.avif",
@@ -71,12 +83,6 @@
             "url": "https://xyzbz.cn/",
             "src": "https://cdn.xiaoten.com/friends/xyzbz.png",
             "des": "一介草民，只为生活"
-        },
-        {
-            "name": "小白大学渣",
-            "url": "https://www.baihub.cn/",
-            "src": "https://cdn.xiaoten.com/friends/baihub.jpg",
-            "des": "随缘更新，咕~"
         },
         {
             "name": "灰常记忆",
@@ -179,12 +185,6 @@
             "url": "https://www.80h.bj.cn",
             "src": "https://cdn.xiaoten.com/friends/80h_bj.ico",
             "des": "_No response_"
-        },
-        {
-            "name": "国安",
-            "url": "https://guoan.cc",
-            "src": "https://guoan.cc/images/logo.png",
-            "des": "不必宏大叙事，只写亲眼所见的山河。"
         }
     ],
     "experts": [
